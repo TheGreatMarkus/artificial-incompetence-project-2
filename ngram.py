@@ -12,7 +12,7 @@ from typing import List
 from collections import Counter
 from constants import Tweet, DF_COLUMN_TWEET
 from utils import get_frequency_of_tokens
-from tokenize import tokenize_unigram
+from custom_tokenize import tokenize_unigram
 
 #########################
 # unigram

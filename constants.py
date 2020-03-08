@@ -15,6 +15,10 @@ LANG_EN = "en"
 LANG_PT = "pt"
 
 IGNORE_DELIM = '*'
+
+DF_COLUMN_ID = 'ID'
+DF_COLUMN_NAME = 'Name'
+DF_COLUMN_LANG = 'Languages'
 DF_COLUMN_TWEET = 'Tweet'
 
 class Tweet:
