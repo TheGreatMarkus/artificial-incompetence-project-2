@@ -14,6 +14,8 @@ LANG_ES = "es"
 LANG_EN = "en"
 LANG_PT = "pt"
 
+IGNORE_DELIM = '*'
+DF_COLUMN_TWEET = 'Tweet'
 
 class Tweet:
     tweet_id: int

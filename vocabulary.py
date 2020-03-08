@@ -7,8 +7,8 @@
 # All rights reserved.
 # -----------------------------------------------------------
 from typing import List
-
-from constants import Tweet
+import re
+from constants import Tweet, DF_COLUMN_TWEET
 
 
 #########################
@@ -27,14 +27,13 @@ def transform_to_v0(tweets: List[Tweet], v: int) -> List[Tweet]:
 #########################
 # V1
 #########################
-def transform_to_v1(tweets: List[Tweet], v: int) -> List[Tweet]:
+def transform_to_v1(df):
     """
-    TODO
-    :param tweets:
-    :param v:
-    :return:
+    Distinguish up and low cases and use only the 26 letters of the alphabet [a-z, A-Z]
+    :param df: Input DataFrame
+    :return: void
     """
-    pass
+    df[DF_COLUMN_TWEET] = df[DF_COLUMN_TWEET].map(lambda tweet: re.sub('[^a-zA-Z]', '*', tweet))
 
 
 #########################
