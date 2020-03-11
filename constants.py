@@ -7,6 +7,10 @@
 # All rights reserved.
 # -----------------------------------------------------------
 
+# Delimiter for out of vocabulary characters
+OUT_OF_VOCABULARY_DELIM = '*'
+
+# Languages
 LANG_EU = "eu"
 LANG_CA = "ca"
 LANG_GL = "gl"
@@ -14,8 +18,24 @@ LANG_ES = "es"
 LANG_EN = "en"
 LANG_PT = "pt"
 
-IGNORE_DELIM = '*'
+# Input DataFrame columns
+DF_COLUMN_ID = 'ID'
+DF_COLUMN_NAME = 'Name'
+DF_COLUMN_LANG = 'Language'
 DF_COLUMN_TWEET = 'Tweet'
+
+# Ngram DataFrame columns, besides necessary features
+DF_COLUMN_SUM = 'Sum'
+
+# Ngram
+UNIGRAM = 1
+BIGRAM = 2
+TRIGRAM = 3
+
+# Vocabulary
+VOCABULARY_0 = 0
+VOCABULARY_1 = 1
+VOCABULARY_2 = 2
 
 class Tweet:
     tweet_id: int
