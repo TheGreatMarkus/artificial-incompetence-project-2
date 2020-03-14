@@ -19,7 +19,7 @@ def main():
     """
     train_data = pd.read_csv('./training-tweets.txt', delimiter='\t', names=[DF_COLUMN_ID, DF_COLUMN_NAME,
                                                                              DF_COLUMN_LANG, DF_COLUMN_TWEET])
-    transform_to_v1(train_data)
+    transform_to_v2(train_data)
     unigram_df = generate_unigram(train_data)
     print(unigram_df)
 main()

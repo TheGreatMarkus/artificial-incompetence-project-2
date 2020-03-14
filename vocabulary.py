@@ -39,11 +39,10 @@ def transform_to_v1(df):
 #########################
 # V2
 #########################
-def transform_to_v2(tweets: List[Tweet], v: int) -> List[Tweet]:
+def transform_to_v2(df):
     """
-    TODO
-    :param tweets:
-    :param v:
-    :return:
+    Keeps all characters returned by isalpha(), all others replaced by '*'
+    :param df: Dataframe structure containing all tweets.
+    :return: void
     """
-    pass
+    df[DF_COLUMN_TWEET] = df[DF_COLUMN_TWEET].map(lambda tweet: '*'.join([i for i in tweet if i.isalpha()]))
