@@ -45,4 +45,4 @@ def transform_to_v2(df):
     :param df: Dataframe structure containing all tweets.
     :return: void
     """
-    df[DF_COLUMN_TWEET] = df[DF_COLUMN_TWEET].map(lambda tweet: '*'.join([i for i in tweet if i.isalpha()]))
+    df[DF_COLUMN_TWEET] = df[DF_COLUMN_TWEET].map(lambda tweet: ''.join([i if i.isalpha() else '*' for i in tweet]))
