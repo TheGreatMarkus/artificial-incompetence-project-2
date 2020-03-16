@@ -8,42 +8,40 @@
 # -----------------------------------------------------------
 from typing import List
 import re
-from constants import Tweet, DF_COLUMN_TWEET
+
+from pandas import DataFrame
+
+from constants import DF_COLUMN_TWEET, OUT_OF_VOCABULARY_DELIM
 
 
-#########################
-# V0
-#########################
-def transform_to_v0(tweets: List[Tweet], v: int) -> List[Tweet]:
+def transform_to_v0(df: DataFrame) -> None:
     """
-    TODO
-    :param tweets:
-    :param v:
-    :return:
+    Convert all tweet texts to lower case letters.
+
+    Any non-letter character will be replaced with *.
+    :param df: Input DataFrame
+    :return: void
     """
-    pass
+    df[DF_COLUMN_TWEET] = df[DF_COLUMN_TWEET].map(
+        lambda tweet: re.sub('[^a-zA-Z]', OUT_OF_VOCABULARY_DELIM, tweet).lower())
 
 
-#########################
-# V1
-#########################
-def transform_to_v1(df):
+def transform_to_v1(df: DataFrame) -> None:
     """
     Distinguish up and low cases and use only the 26 letters of the alphabet [a-z, A-Z]
     :param df: Input DataFrame
     :return: void
     """
-    df[DF_COLUMN_TWEET] = df[DF_COLUMN_TWEET].map(lambda tweet: re.sub('[^a-zA-Z]', '*', tweet))
+    df[DF_COLUMN_TWEET] = df[DF_COLUMN_TWEET].map(lambda tweet: re.sub('[^a-zA-Z]', OUT_OF_VOCABULARY_DELIM, tweet))
 
 
 #########################
 # V2
 #########################
-def transform_to_v2(tweets: List[Tweet], v: int) -> List[Tweet]:
+def transform_to_v2(df: DataFrame) -> None:
     """
     TODO
-    :param tweets:
-    :param v:
-    :return:
+    :param df: Input DataFrame
+    :return: void
     """
     pass

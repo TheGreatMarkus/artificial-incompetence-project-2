@@ -36,15 +36,3 @@ TRIGRAM = 3
 VOCABULARY_0 = 0
 VOCABULARY_1 = 1
 VOCABULARY_2 = 2
-
-class Tweet:
-    tweet_id: int
-    user: str
-    language: str
-    tweet: str
-
-    def __init__(self, tweet_id: int, user: str, language: str, tweet: str):
-        self.tweet_id = tweet_id
-        self.user = user
-        self.language = language
-        self.tweet = tweet
