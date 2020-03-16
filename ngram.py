@@ -9,6 +9,7 @@
 from collections import Counter
 
 import pandas as pd
+
 from constants import *
 from custom_tokenize import tokenize
 
@@ -37,10 +38,7 @@ class Ngram:
             token_count = tokenized_tweets.map(lambda tweet: Counter(tweet))
             token_count_sum = sum(token_count, Counter())
             for token, count in token_count_sum.items():
-                if len(token) > 1:
-                    self.ngrams[language].loc[token[:-1], token[-1:]] = count
-                else:
-                    self.ngrams[language].insert(0, token, [count], True)
+                self.ngrams[language].loc[token[:-1], token[-1:]] = count
 
         self.__finalize_ngrams()
 

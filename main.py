@@ -7,9 +7,10 @@
 # All rights reserved.
 # -----------------------------------------------------------
 import pandas as pd
+
 from constants import *
-from vocabulary import transform_to_v1, transform_to_v0, transform_to_v2
 from ngram import Ngram
+from vocabulary import transform_to_v1, transform_to_v0, transform_to_v2
 
 
 def main(v: int, n: int, delta: float, train_file: str, test_file: str):
@@ -41,4 +42,4 @@ def main(v: int, n: int, delta: float, train_file: str, test_file: str):
     print(ngrams.print_ngrams())
 
 
-main(VOCABULARY_0, BIGRAM, 0.5, './training-tweets.txt', './test-tweets.txt')
+main(VOCABULARY_0, UNIGRAM, 0.5, './training-tweets.txt', './test-tweets.txt')
