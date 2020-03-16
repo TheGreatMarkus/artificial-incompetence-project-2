@@ -1,7 +1,9 @@
+from typing import List
+
 from constants import OUT_OF_VOCABULARY_DELIM
 
 
-def tokenize(tweet: str, span: int):
+def tokenize(tweet: str, span: int) -> List[str]:
     """
     Tokenize tweets by a single legal character
     :param span: Execution range. Ex: Unigram = 1; Bigram = 2; Trigram = 3
