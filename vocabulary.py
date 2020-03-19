@@ -40,8 +40,8 @@ def transform_to_v1(df: DataFrame) -> None:
 #########################
 def transform_to_v2(df: DataFrame) -> None:
     """
-    TODO
-    :param df: Input DataFrame
+    Keeps all characters returned by isalpha(), all others replaced by '*'
+    :param df: Dataframe structure containing all tweets.
     :return: void
     """
-    pass
+    df[DF_COLUMN_TWEET] = df[DF_COLUMN_TWEET].map(lambda tweet: ''.join([i if i.isalpha() else OUT_OF_VOCABULARY_DELIM for i in tweet]))
