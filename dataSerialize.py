@@ -12,6 +12,8 @@ import pandas as pd
 from constants import *
 from ngram import Ngram
 
+TRAINING_FILE_TEMPLATE = 'trainingResults/{}{}_{}.pkl'
+
 def ifExists(vocab: int, ngram: int):
     """
     checks if appropriate vocab/ngram combination files exist
@@ -19,12 +21,12 @@ def ifExists(vocab: int, ngram: int):
     :param ngram: which ngram is being addressed.
     :return: True if files for all languages of appropriate combination exists, false otherwise.
     """
-    if(os.path.exists('trainingResults/'+LANG_EN+(str(vocab))+'_'+(str(ngram))+'.pkl')
-    and os.path.exists('trainingResults/'+LANG_CA+(str(vocab))+'_'+(str(ngram))+'.pkl')
-    and os.path.exists('trainingResults/'+LANG_ES+(str(vocab))+'_'+(str(ngram))+'.pkl')
-    and os.path.exists('trainingResults/'+LANG_EU+(str(vocab))+'_'+(str(ngram))+'.pkl')
-    and os.path.exists('trainingResults/'+LANG_GL+(str(vocab))+'_'+(str(ngram))+'.pkl')
-    and os.path.exists('trainingResults/'+LANG_PT+(str(vocab))+'_'+(str(ngram))+'.pkl')):
+    if(os.path.exists(TRAINING_FILE_TEMPLATE.format(LANG_EU, vocab, ngram))
+    and os.path.exists(TRAINING_FILE_TEMPLATE.format(LANG_CA, vocab, ngram))
+    and os.path.exists(TRAINING_FILE_TEMPLATE.format(LANG_GL, vocab, ngram))
+    and os.path.exists(TRAINING_FILE_TEMPLATE.format(LANG_ES, vocab, ngram))
+    and os.path.exists(TRAINING_FILE_TEMPLATE.format(LANG_EN, vocab, ngram))
+    and os.path.exists(TRAINING_FILE_TEMPLATE.format(LANG_PT, vocab, ngram))):
         return True
     else:
         return False
@@ -38,12 +40,12 @@ def loadNgrams(vocab: int, ngram: int):
     :return ngrams: Ngram object.
     """
     ngrams =Ngram(ngram)
-    ngrams.ngrams[LANG_EU] = pd.read_pickle('trainingResults/'+LANG_EU+(str(vocab))+'_'+(str(ngram))+'.pkl')
-    ngrams.ngrams[LANG_CA] = pd.read_pickle('trainingResults/'+LANG_CA+(str(vocab))+'_'+(str(ngram))+'.pkl')
-    ngrams.ngrams[LANG_GL] = pd.read_pickle('trainingResults/'+LANG_GL+(str(vocab))+'_'+(str(ngram))+'.pkl')
-    ngrams.ngrams[LANG_ES] = pd.read_pickle('trainingResults/'+LANG_ES+(str(vocab))+'_'+(str(ngram))+'.pkl')
-    ngrams.ngrams[LANG_EN] = pd.read_pickle('trainingResults/'+LANG_EN+(str(vocab))+'_'+(str(ngram))+'.pkl')
-    ngrams.ngrams[LANG_PT] = pd.read_pickle('trainingResults/'+LANG_PT+(str(vocab))+'_'+(str(ngram))+'.pkl')
+    ngrams.ngrams[LANG_EU] = pd.read_pickle(TRAINING_FILE_TEMPLATE.format(LANG_EU, vocab, ngram))
+    ngrams.ngrams[LANG_CA] = pd.read_pickle(TRAINING_FILE_TEMPLATE.format(LANG_CA, vocab, ngram))
+    ngrams.ngrams[LANG_GL] = pd.read_pickle(TRAINING_FILE_TEMPLATE.format(LANG_GL, vocab, ngram))
+    ngrams.ngrams[LANG_ES] = pd.read_pickle(TRAINING_FILE_TEMPLATE.format(LANG_ES, vocab, ngram))
+    ngrams.ngrams[LANG_EN] = pd.read_pickle(TRAINING_FILE_TEMPLATE.format(LANG_EN, vocab, ngram))
+    ngrams.ngrams[LANG_PT] = pd.read_pickle(TRAINING_FILE_TEMPLATE.format(LANG_PT, vocab, ngram))
     return ngrams
 
 
@@ -55,9 +57,9 @@ def saveNgrams(ngrams: Ngram, vocab: int, ngram: int):
     :param ngram: which ngram was used. Needed for proper naming.
     :reutn: void.
     """
-    ngrams.ngrams[LANG_EU].to_pickle('trainingResults/'+LANG_EU+(str(vocab))+'_'+(str(ngram))+'.pkl')
-    ngrams.ngrams[LANG_CA].to_pickle('trainingResults/'+LANG_CA+(str(vocab))+'_'+(str(ngram))+'.pkl')
-    ngrams.ngrams[LANG_GL].to_pickle('trainingResults/'+LANG_GL+(str(vocab))+'_'+(str(ngram))+'.pkl')
-    ngrams.ngrams[LANG_ES].to_pickle('trainingResults/'+LANG_ES+(str(vocab))+'_'+(str(ngram))+'.pkl')
-    ngrams.ngrams[LANG_EN].to_pickle('trainingResults/'+LANG_EN+(str(vocab))+'_'+(str(ngram))+'.pkl')
-    ngrams.ngrams[LANG_PT].to_pickle('trainingResults/'+LANG_PT+(str(vocab))+'_'+(str(ngram))+'.pkl')
+    ngrams.ngrams[LANG_EU].to_pickle(TRAINING_FILE_TEMPLATE.format(LANG_EU, vocab, ngram))
+    ngrams.ngrams[LANG_CA].to_pickle(TRAINING_FILE_TEMPLATE.format(LANG_CA, vocab, ngram))
+    ngrams.ngrams[LANG_GL].to_pickle(TRAINING_FILE_TEMPLATE.format(LANG_GL, vocab, ngram))
+    ngrams.ngrams[LANG_ES].to_pickle(TRAINING_FILE_TEMPLATE.format(LANG_ES, vocab, ngram))
+    ngrams.ngrams[LANG_EN].to_pickle(TRAINING_FILE_TEMPLATE.format(LANG_EN, vocab, ngram))
+    ngrams.ngrams[LANG_PT].to_pickle(TRAINING_FILE_TEMPLATE.format(LANG_PT, vocab, ngram))
