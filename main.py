@@ -7,8 +7,7 @@
 # All rights reserved.
 # -----------------------------------------------------------
 import pandas as pd
-import os.path
-
+import dataSerialize as ds
 from constants import *
 from ngram import Ngram
 from vocabulary import transform_to_v1, transform_to_v0, transform_to_v2
@@ -25,14 +24,8 @@ def main(v: int, n: int, delta: float, train_file: str, test_file: str):
     :param test_file: Path to testing data
     :return: void
     """
-    if(os.path.exists('trainingResults/'+LANG_EN+(str(v))+'_'+(str(n))+'.pkl')):
-        ngrams =Ngram(n)
-        ngrams.ngrams[LANG_EU] = pd.read_pickle('trainingResults/'+LANG_EU+(str(v))+'_'+(str(n))+'.pkl')
-        ngrams.ngrams[LANG_CA] = pd.read_pickle('trainingResults/'+LANG_CA+(str(v))+'_'+(str(n))+'.pkl')
-        ngrams.ngrams[LANG_GL] = pd.read_pickle('trainingResults/'+LANG_GL+(str(v))+'_'+(str(n))+'.pkl')
-        ngrams.ngrams[LANG_ES] = pd.read_pickle('trainingResults/'+LANG_ES+(str(v))+'_'+(str(n))+'.pkl')
-        ngrams.ngrams[LANG_EN] = pd.read_pickle('trainingResults/'+LANG_EN+(str(v))+'_'+(str(n))+'.pkl')
-        ngrams.ngrams[LANG_PT] = pd.read_pickle('trainingResults/'+LANG_PT+(str(v))+'_'+(str(n))+'.pkl')
+    if(ds.ifExists(v, n)):
+        ngrams = ds.loadNgrams(v, n)
     else:
         train_data = pd.read_csv(train_file,
                              delimiter='\t',
@@ -50,14 +43,11 @@ def main(v: int, n: int, delta: float, train_file: str, test_file: str):
         ngrams = Ngram(n)
         ngrams.generate(train_data)
         print(ngrams.ngrams)
-        ngrams.ngrams[LANG_EU].to_pickle('trainingResults/'+LANG_EU+(str(v))+'_'+(str(n))+'.pkl')
-        ngrams.ngrams[LANG_CA].to_pickle('trainingResults/'+LANG_CA+(str(v))+'_'+(str(n))+'.pkl')
-        ngrams.ngrams[LANG_GL].to_pickle('trainingResults/'+LANG_GL+(str(v))+'_'+(str(n))+'.pkl')
-        ngrams.ngrams[LANG_ES].to_pickle('trainingResults/'+LANG_ES+(str(v))+'_'+(str(n))+'.pkl')
-        ngrams.ngrams[LANG_EN].to_pickle('trainingResults/'+LANG_EN+(str(v))+'_'+(str(n))+'.pkl')
-        ngrams.ngrams[LANG_PT].to_pickle('trainingResults/'+LANG_PT+(str(v))+'_'+(str(n))+'.pkl')
+        
+        ds.saveNgrams(ngrams, v, n)
+        
 
     print(ngrams.print_ngrams())
 
 
-main(VOCABULARY_2, TRIGRAM, 0.5, './training-tweets.txt', './test-tweets.txt')
+main(VOCABULARY_0, TRIGRAM, 0.5, './training-tweets.txt', './test-tweets.txt')
