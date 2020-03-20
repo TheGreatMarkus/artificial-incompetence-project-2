@@ -8,10 +8,11 @@
 # -----------------------------------------------------------
 
 import os.path
+
 import pandas as pd
+
 from constants import *
 from ngram import Ngram
-from constants import *
 
 
 def ifExists(vocab: int, ngram: int):
@@ -22,10 +23,10 @@ def ifExists(vocab: int, ngram: int):
     :return: True if files for all languages of appropriate combination exists, false otherwise.
     """
     for lang in LANGUAGES:
-        if(not(os.path.exists(TRAINING_FILE_TEMPLATE.format(lang, vocab, ngram)))):
+        if not (os.path.exists(TRAINING_FILE_TEMPLATE.format(lang, vocab, ngram))):
             return False
     return True
-    
+
 
 def loadNgrams(vocab: int, ngram: int):
     """
@@ -34,7 +35,7 @@ def loadNgrams(vocab: int, ngram: int):
     :param ngram: which ngram is being addressed.
     :return ngrams: Ngram object.
     """
-    ngrams =Ngram(ngram)
+    ngrams = Ngram(ngram)
     for lang in LANGUAGES:
         ngrams.ngrams[lang] = pd.read_pickle(TRAINING_FILE_TEMPLATE.format(lang, vocab, ngram))
     return ngrams
@@ -50,4 +51,3 @@ def saveNgrams(ngrams: Ngram, vocab: int, ngram: int):
     """
     for lang in LANGUAGES:
         ngrams.ngrams[lang].to_pickle(TRAINING_FILE_TEMPLATE.format(lang, vocab, ngram))
-    

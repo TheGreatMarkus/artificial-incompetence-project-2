@@ -6,7 +6,6 @@
 # Copyright (c) 2020-2021 Team Artificial Incompetence, COMP 472
 # All rights reserved.
 # -----------------------------------------------------------
-from typing import List
 import re
 
 from pandas import DataFrame
@@ -44,4 +43,5 @@ def transform_to_v2(df: DataFrame) -> None:
     :param df: Dataframe structure containing all tweets.
     :return: void
     """
-    df[DF_COLUMN_TWEET] = df[DF_COLUMN_TWEET].map(lambda tweet: ''.join([i if i.isalpha() else OUT_OF_VOCABULARY_DELIM for i in tweet]))
+    df[DF_COLUMN_TWEET] = df[DF_COLUMN_TWEET].map(
+        lambda tweet: ''.join([i if i.isalpha() else OUT_OF_VOCABULARY_DELIM for i in tweet]))

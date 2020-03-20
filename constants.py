@@ -18,7 +18,7 @@ LANG_ES = "es"
 LANG_EN = "en"
 LANG_PT = "pt"
 
-LANGUAGES = [LANG_EU,LANG_CA,LANG_GL,LANG_ES,LANG_EN,LANG_PT]
+LANGUAGES = [LANG_EU, LANG_CA, LANG_GL, LANG_ES, LANG_EN, LANG_PT]
 
 # Input DataFrame columns
 DF_COLUMN_ID = 'ID'
@@ -39,5 +39,5 @@ VOCABULARY_0 = 0
 VOCABULARY_1 = 1
 VOCABULARY_2 = 2
 
-#Serialization
+# Serialization
 TRAINING_FILE_TEMPLATE = 'trainingResults/{}{}_{}.pkl'
