@@ -18,6 +18,8 @@ LANG_ES = "es"
 LANG_EN = "en"
 LANG_PT = "pt"
 
+LANGUAGES = [LANG_EU,LANG_CA,LANG_GL,LANG_ES,LANG_EN,LANG_PT]
+
 # Input DataFrame columns
 DF_COLUMN_ID = 'ID'
 DF_COLUMN_NAME = 'Name'
@@ -36,3 +38,6 @@ TRIGRAM = 3
 VOCABULARY_0 = 0
 VOCABULARY_1 = 1
 VOCABULARY_2 = 2
+
+#Serialization
+TRAINING_FILE_TEMPLATE = 'trainingResults/{}{}_{}.pkl'

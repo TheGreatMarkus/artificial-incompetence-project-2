@@ -50,4 +50,4 @@ def main(v: int, n: int, delta: float, train_file: str, test_file: str):
     print(ngrams.print_ngrams())
 
 
-main(VOCABULARY_0, TRIGRAM, 0.5, './training-tweets.txt', './test-tweets.txt')
+main(VOCABULARY_2, TRIGRAM, 0.5, './training-tweets.txt', './test-tweets.txt')
