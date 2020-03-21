@@ -49,7 +49,7 @@ def saveNgrams(ngrams: Ngram, vocab: int, ngram: int):
     :param ngram: which ngram was used. Needed for proper naming.
     :reutn: void.
     """
-    if not os.path.exists('trainingResults'):
-        os.makedirs('trainingResults')
+    if not os.path.exists(TRAINING_RESULT_FOLDER):
+        os.makedirs(TRAINING_RESULT_FOLDER)
     for lang in LANGUAGES:
         ngrams.ngrams[lang].to_pickle(TRAINING_FILE_TEMPLATE.format(lang, vocab, ngram))
