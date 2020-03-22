@@ -40,4 +40,6 @@ VOCABULARY_1 = 1
 VOCABULARY_2 = 2
 
 # Serialization
-TRAINING_FILE_TEMPLATE = 'trainingResults/{}{}_{}.pkl'
+TRAINING_RESULT_FOLDER = 'trainingResults'
+TRAINING_FILE_TEMPLATE = TRAINING_RESULT_FOLDER + '/{}{}_{}.pkl'
+
