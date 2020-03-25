@@ -15,41 +15,44 @@ from constants import *
 from ngram import Ngram
 
 
-def ifExists(vocab: int, ngram: int):
+def data_ser_exists(v: int, n: int, delta: float) -> bool:
     """
     checks if appropriate vocab/ngram combination files exist
-    :param vocab: which vocabulary is being addressed.
-    :param ngram: which ngram is being addressed.
+    :param v: Vocabulary for the model
+    :param n: Ngram size for the model
+    :param delta: Delta value for the model
     :return: True if files for all languages of appropriate combination exists, false otherwise.
     """
     for lang in LANGUAGES:
-        if not (os.path.exists(TRAINING_FILE_TEMPLATE.format(lang, vocab, ngram))):
+        if not (os.path.exists(TRAINING_FILE_TEMPLATE.format(lang, v, n, delta))):
             return False
     return True
 
 
-def loadNgrams(vocab: int, ngram: int):
+def data_ser_load(v: int, n: int, delta: float):
     """
     loads the Ngram object, initializing DataFrames for each languages from proper files.
-    :param vocab: which vocabulary is being addressed.
-    :param ngram: which ngram is being addressed.
+    :param v: Vocabulary for the model
+    :param n: Ngram size for the model
+    :param delta: Delta value for the model
     :return ngrams: Ngram object.
     """
-    ngrams = Ngram(ngram)
+    ngrams = Ngram(n)
     for lang in LANGUAGES:
-        ngrams.ngrams[lang] = pd.read_pickle(TRAINING_FILE_TEMPLATE.format(lang, vocab, ngram))
+        ngrams.ngrams[lang] = pd.read_pickle(TRAINING_FILE_TEMPLATE.format(lang, v, n, delta))
     return ngrams
 
 
-def saveNgrams(ngrams: Ngram, vocab: int, ngram: int):
+def data_ser_save(ngrams: Ngram, v: int, n: int, delta: float):
     """
     stores each languages datafram to a file.
     :param ngrams: Ngram object containing all language dataFrames.
-    :param vocab: which vocabulary was used. Needed for proper naming.
-    :param ngram: which ngram was used. Needed for proper naming.
+    :param v: Vocabulary for the model
+    :param n: Ngram size for the model
+    :param delta: Delta value for the model
     :reutn: void.
     """
     if not os.path.exists(TRAINING_RESULT_FOLDER):
         os.makedirs(TRAINING_RESULT_FOLDER)
     for lang in LANGUAGES:
-        ngrams.ngrams[lang].to_pickle(TRAINING_FILE_TEMPLATE.format(lang, vocab, ngram))
+        ngrams.ngrams[lang].to_pickle(TRAINING_FILE_TEMPLATE.format(lang, v, n, delta))

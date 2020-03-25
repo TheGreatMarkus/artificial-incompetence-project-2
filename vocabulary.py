@@ -10,7 +10,37 @@ import re
 
 from pandas import DataFrame
 
-from constants import DF_COLUMN_TWEET, OUT_OF_VOCABULARY_DELIM
+from constants import DF_COLUMN_TWEET, OUT_OF_VOCABULARY_DELIM, VOCABULARY_0, VOCABULARY_1, VOCABULARY_2, \
+    VOCABULARY_0_SIZE, VOCABULARY_1_SIZE, VOCABULARY_2_SIZE
+
+
+def transform_to_vocab(df: DataFrame, v: int) -> None:
+    """
+    Transform Tweets of a DataFrame to fit the given vocabulary.
+    :param df: The DataFrame
+    :param v: the vocabulary
+    :return: void
+    """
+    if v == VOCABULARY_0:
+        transform_to_v0(df)
+    elif v == VOCABULARY_1:
+        transform_to_v1(df)
+    elif v == VOCABULARY_2:
+        transform_to_v2(df)
+
+
+def get_vocab_size(v: int) -> int:
+    """
+    Returns the size of a given vocabulary.
+    :param v: The vocabulary number
+    :return: The size of the vocabulary.
+    """
+    if v == VOCABULARY_0:
+        return VOCABULARY_0_SIZE
+    elif v == VOCABULARY_1:
+        return VOCABULARY_1_SIZE
+    elif v == VOCABULARY_2:
+        return VOCABULARY_2_SIZE
 
 
 def transform_to_v0(df: DataFrame) -> None:
@@ -34,9 +64,6 @@ def transform_to_v1(df: DataFrame) -> None:
     df[DF_COLUMN_TWEET] = df[DF_COLUMN_TWEET].map(lambda tweet: re.sub('[^a-zA-Z]', OUT_OF_VOCABULARY_DELIM, tweet))
 
 
-#########################
-# V2
-#########################
 def transform_to_v2(df: DataFrame) -> None:
     """
     Keeps all characters returned by isalpha(), all others replaced by '*'
