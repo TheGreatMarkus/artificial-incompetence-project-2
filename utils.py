@@ -54,3 +54,15 @@ def process_train_data(v: int, n: int, delta: float, vocab_size: int, train_file
         ngrams.generate(train_data, delta, vocab_size)
         ds.data_ser_save(ngrams, v, n, delta)
     return ngrams
+
+def validate_params(v: int, n: int, delta: float, train_file: str, test_file: str):
+    if v not in VALID_VOCABULARIES:
+        raise ValueError(VOCABULARY_VALUE_ERROR_MESSAGE)
+    if n not in VALID_NGRAMS:
+        raise ValueError(NGRAM_VALUE_ERROR_MESSAGE)
+    if delta <= 0 or delta > 1:
+        raise ValueError(DELTA_VALUE_ERROR_MESSAGE)
+    if not os.path.exists(train_file):
+        raise ValueError(MISSING_TRAIN_FILE_ERROR_MESSAGE)
+    if not os.path.exists(test_file):
+        raise ValueError(MISSING_TEST_FILE_ERROR_MESSAGE)
