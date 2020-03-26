@@ -26,8 +26,13 @@ DF_COLUMN_NAME = 'Name'
 DF_COLUMN_LANG = 'Language'
 DF_COLUMN_TWEET = 'Tweet'
 
-# Ngram DataFrame columns, besides necessary features
-DF_COLUMN_SUM = 'Sum'
+# Ngram DataFrame columns
+DF_COLUMN_OOV = "OOV"
+
+# Score DataFrame columns
+DF_COLUMN_GUESS = 'guess'
+DF_COLUMN_SCORE = 'score'
+DF_COLUMN_ACTUAL = "actual"
 
 # Ngram
 UNIGRAM = 1
@@ -39,7 +44,10 @@ VOCABULARY_0 = 0
 VOCABULARY_1 = 1
 VOCABULARY_2 = 2
 
+VOCABULARY_0_SIZE = 26
+VOCABULARY_1_SIZE = 52
+VOCABULARY_2_SIZE = 116766
+
 # Serialization
 TRAINING_RESULT_FOLDER = 'trainingResults'
-TRAINING_FILE_TEMPLATE = TRAINING_RESULT_FOLDER + '/{}{}_{}.pkl'
-
+TRAINING_FILE_TEMPLATE = TRAINING_RESULT_FOLDER + '/{}_{}-{}-{}.pkl'

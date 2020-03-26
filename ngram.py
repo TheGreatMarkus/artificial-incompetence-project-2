@@ -27,10 +27,12 @@ class Ngram:
                        LANG_ES: pd.DataFrame(), LANG_EN: pd.DataFrame(), LANG_PT: pd.DataFrame()}
         self.ngram_option = ngram_option
 
-    def generate(self, df):
+    def generate(self, df, delta: float, vocab_size: int):
         """
         Generate ngram counts from tweets
         :param df: DataFrame of raw data.
+        :param delta: Delta value for the model.
+        :param vocab_size: Size of the vocabulary
         :return: void
         """
         for language, tweets in df.groupby(DF_COLUMN_LANG)[DF_COLUMN_TWEET]:
@@ -41,22 +43,24 @@ class Ngram:
                 self.ngrams[language].loc[token[:-1], token[-1:]] = count
 
         self.__finalize_ngrams()
+        for lang, df in self.ngrams.items():
+            row_sum = self.ngrams[lang].sum(axis=1)
+            self.ngrams[lang] = (df + delta).div(row_sum + vocab_size * delta, axis=0)
+            self.ngrams[lang][DF_COLUMN_OOV] = delta / (row_sum + vocab_size * delta)
 
-    def print_ngrams(self):
+    def print(self):
         """
         Print ngrams for each language.
         :return:
         """
         for lang, df in self.ngrams.items():
-            print('\nNgram for {} language'.format(lang))
+            print('\nNgram for the {} language'.format(lang))
             print('{}\n'.format(df))
 
     def __finalize_ngrams(self):
         """
         Insert 0.0 in missing cells.
-        Generate sum column which holds sums for each row.
         :return:
         """
-        for ngram in self.ngrams.values():
-            ngram.fillna(0.0, inplace=True)
-            ngram[DF_COLUMN_SUM] = ngram.sum(axis=1)
+        for lang in LANGUAGES:
+            self.ngrams[lang].fillna(0.0, inplace=True)
