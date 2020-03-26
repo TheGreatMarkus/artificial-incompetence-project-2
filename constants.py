@@ -27,12 +27,13 @@ DF_COLUMN_LANG = 'Language'
 DF_COLUMN_TWEET = 'Tweet'
 
 # Ngram DataFrame columns
-DF_COLUMN_OOV = "OOV"
+DF_COLUMN_OOV = 'OOV'
 
 # Score DataFrame columns
 DF_COLUMN_GUESS = 'guess'
 DF_COLUMN_SCORE = 'score'
-DF_COLUMN_ACTUAL = "actual"
+DF_COLUMN_ACTUAL = 'actual'
+DF_COLUMN_LABEL = 'label'
 
 # Ngram
 UNIGRAM = 1
@@ -51,3 +52,13 @@ VOCABULARY_2_SIZE = 116766
 # Serialization
 TRAINING_RESULT_FOLDER = 'trainingResults'
 TRAINING_FILE_TEMPLATE = TRAINING_RESULT_FOLDER + '/{}_{}-{}-{}.pkl'
+
+# Labels
+CORRECT_LABEL = 'correct'
+WRONG_LABEL = 'wrong'
+
+# Trace file
+TRACE_FILE_DIR = 'trace_files'
+TRACE_FILE_TEMPLATE = TRACE_FILE_DIR + '/trace_{}_{}_{}.txt'
+SCIENTIFIC_NOTATION_FORMAT = '.2E'
+OUTPUT_FILE_SPACE_COUNT = 2
