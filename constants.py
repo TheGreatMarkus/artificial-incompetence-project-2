@@ -9,6 +9,7 @@
 
 # Delimiter for out of vocabulary characters
 OUT_OF_VOCABULARY_DELIM = '*'
+SENTENCE_DELIM = '|'
 
 # Languages
 LANG_EU = "eu"
