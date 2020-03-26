@@ -1,15 +1,12 @@
 from math import log10
-
 import pandas as pd
-from pandas import DataFrame
-
-from constants import DF_COLUMN_ID, DF_COLUMN_GUESS, DF_COLUMN_SCORE, DF_COLUMN_ACTUAL, DF_COLUMN_LANG, LANGUAGES, \
-    DF_COLUMN_OOV, DF_COLUMN_TWEET
+import numpy as np
+from constants import *
 from custom_tokenize import tokenize
 from ngram import Ngram
 
 
-def get_test_results(test_data: DataFrame, ngrams: Ngram, vocab_size: int, n: int) -> DataFrame:
+def get_test_results(test_data: pd.DataFrame, ngrams: Ngram, vocab_size: int, n: int) -> pd.DataFrame:
     """
     Generate test result DataFrame from test data and model
     :param test_data: The test data to evaluate
@@ -18,9 +15,7 @@ def get_test_results(test_data: DataFrame, ngrams: Ngram, vocab_size: int, n: in
     :param n: The size of the ngrams
     :return: Result DataFrame
     """
-    results = pd.DataFrame(columns=[DF_COLUMN_ID, DF_COLUMN_GUESS, DF_COLUMN_SCORE, DF_COLUMN_ACTUAL], dtype=float)
-    results[DF_COLUMN_ID] = test_data[DF_COLUMN_ID]
-    results[DF_COLUMN_ACTUAL] = test_data[DF_COLUMN_LANG]
+    results = prepare_result_df(test_data)
     for index, row in test_data.iterrows():
         scores = {
             lang: sum([get_token_score(token, ngrams, lang, vocab_size)
@@ -30,6 +25,7 @@ def get_test_results(test_data: DataFrame, ngrams: Ngram, vocab_size: int, n: in
         guess = max(scores, key=scores.get)
         results.loc[index, DF_COLUMN_GUESS] = guess
         results.loc[index, DF_COLUMN_SCORE] = scores[guess]
+    results = finalize_result_df(results)
     return results
 
 
@@ -49,3 +45,30 @@ def get_token_score(token, ngrams, lang, vocab_size) -> float:
         column = token[-1:] if token[-1:] in ngrams.ngrams[lang].columns else DF_COLUMN_OOV
         score = log10(ngrams.ngrams[lang].loc[token[:-1], column])
     return score
+
+
+def prepare_result_df(test_data: pd.DataFrame) -> pd.DataFrame:
+    """
+    Prepare layout of the result DataFrame.
+    :param test_data: test data DataFrame.
+    :return: partially filled result DataFrame.
+    """
+    results = pd.DataFrame(columns=[DF_COLUMN_ID, DF_COLUMN_GUESS, DF_COLUMN_SCORE, DF_COLUMN_ACTUAL, DF_COLUMN_LABEL])
+    results[DF_COLUMN_ID] = test_data[DF_COLUMN_ID]
+    results[DF_COLUMN_ACTUAL] = test_data[DF_COLUMN_LANG]
+    return results
+
+
+def finalize_result_df(result_df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Prepare result DataFrame for submission.
+    - Transform `Guess` column to scientific notation.
+    - Generate values for the Label column.
+    :param result_df: result DataFrame
+    :return: updated DataFrame
+    """
+    result_df[DF_COLUMN_SCORE] = result_df[DF_COLUMN_SCORE].map(
+        lambda score_val: format(score_val, SCIENTIFIC_NOTATION_FORMAT))
+    result_df[DF_COLUMN_LABEL] = np.where(result_df[DF_COLUMN_GUESS] == result_df[DF_COLUMN_ACTUAL],
+                                          CORRECT_LABEL, WRONG_LABEL)
+    return result_df

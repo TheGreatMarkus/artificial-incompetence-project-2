@@ -8,12 +8,10 @@
 # -----------------------------------------------------------
 
 import pandas as pd
-
-import data_serialize as ds
 from constants import *
-from ngram import Ngram
 from test_results import get_test_results
 from vocabulary import transform_to_vocab, get_vocab_size
+from utils import process_train_data, generate_trace_file
 
 
 def main(v: int, n: int, delta: float, train_file: str, test_file: str):
@@ -26,39 +24,25 @@ def main(v: int, n: int, delta: float, train_file: str, test_file: str):
     :param test_file: Path to testing data
     :return: void
     """
-    test_data = pd.read_csv(test_file, delimiter='\t',
-                            names=[DF_COLUMN_ID, DF_COLUMN_NAME, DF_COLUMN_LANG, DF_COLUMN_TWEET])
-    transform_to_vocab(test_data, v)
     vocab_size = get_vocab_size(v)
 
     print("Creating model with parameters: [vocabulary = {}, ngram size = {}, delta = {}]".format(v, n, delta))
-
-    if ds.data_ser_exists(v, n, delta):
-        print("Model with parameters already stored. Retrieving")
-        ngrams = ds.data_ser_load(v, n, delta)
-    else:
-        print("Model with parameters not stored. Generating model from provided training data")
-        train_data = pd.read_csv(train_file,
-                                 delimiter='\t',
-                                 names=[DF_COLUMN_ID, DF_COLUMN_NAME, DF_COLUMN_LANG, DF_COLUMN_TWEET])
-        transform_to_vocab(train_data, v)
-        print("Shape of Training Data (Rows, Columns) => {}".format(train_data.shape))
-        ngrams = Ngram(n)
-        ngrams.generate(train_data, delta, vocab_size)
-        ds.data_ser_save(ngrams, v, n, delta)
-
+    ngrams = process_train_data(v, n, delta, vocab_size, train_file)
     ngrams.print()
+
+    test_data = pd.read_csv(test_file, delimiter='\t',
+                            names=[DF_COLUMN_ID, DF_COLUMN_NAME, DF_COLUMN_LANG, DF_COLUMN_TWEET])
+    transform_to_vocab(test_data, v)
 
     print("Running model against provided testing data.")
     results = get_test_results(test_data, ngrams, vocab_size, n)
+    generate_trace_file(v, n, delta, results)
 
     print("Final results generated")
     print(results)
 
     print("Evaluating classifier with parameters: [vocabulary = {}, ngram size = {}, delta = {}]".format(v, n, delta))
-    total = len(results.index)
-    correct = len(results.loc[results[DF_COLUMN_ACTUAL] == results[DF_COLUMN_GUESS]])
-    print("Accuracy: {0:.4f}%".format(correct / total))
+    print('Accuracy: {0:.2f}'.format(results[DF_COLUMN_LABEL].value_counts(normalize=True).loc[CORRECT_LABEL] * 100))
 
 
-main(VOCABULARY_1, TRIGRAM, 1, './training-tweets.txt', './test-tweets.txt')
+main(VOCABULARY_1, BIGRAM, 1, './training-tweets.txt', './test-tweets.txt')
