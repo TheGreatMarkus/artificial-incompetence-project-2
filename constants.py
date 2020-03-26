@@ -8,9 +8,12 @@
 # -----------------------------------------------------------
 
 # Delimiter for out of vocabulary characters
+import os
+
 OUT_OF_VOCABULARY_DELIM = '*'
 LEFT_PAD_SYMBOL = '|'
 RIGHT_PAD_SYMBOL = '/'
+ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Languages
 LANG_EU = "eu"
@@ -52,9 +55,9 @@ VOCABULARY_1_SIZE = 52
 VOCABULARY_2_SIZE = 116766
 
 # Serialization
-TRAINING_RESULT_FOLDER = 'trainingResults'
+TRAINING_RESULT_FOLDER = ROOT_DIR + '/trainingResults'
 TRAINING_FILE_TEMPLATE = TRAINING_RESULT_FOLDER + '/{}_{}-{}-{}.pkl'
-EVALUATION_FOLDER = 'evaluation'
+EVALUATION_FOLDER = ROOT_DIR + '/evaluation'
 EVALUATION_RESULTS = EVALUATION_FOLDER + '/eval_{}_{}_{}.txt'
 
 # Labels
@@ -62,10 +65,22 @@ CORRECT_LABEL = 'correct'
 WRONG_LABEL = 'wrong'
 
 # Trace file
-TRACE_FILE_DIR = 'trace_files'
+TRACE_FILE_DIR = ROOT_DIR + '/trace_files'
 TRACE_FILE_TEMPLATE = TRACE_FILE_DIR + '/trace_{}_{}_{}.txt'
 SCIENTIFIC_NOTATION_FORMAT = '.2E'
 OUTPUT_FILE_SPACE_COUNT = 2
+
+# Hyperparameters
+HYPERPARAM_VOCABULARY = 'vocabulary'
+HYPERPARAM_NGRAM = 'ngram_size'
+HYPERPARAM_DELTA = 'delta'
+
+# Performance
+MODEL_SCORE_EVALUATION_ACCURACY = 'accuracy'
+MODEL_SCORE_EVALUATION_F1_WEIGHTED = 'f1_weighted'
+MODEL_SCORE_EVALUATION_F1_MACRO = 'f1_macro'
+GRID_SEARCH_SERIALIZE_FILE = 'grid_search.pkl'
+GRID_SEARCH_OUTPUT_FILE = 'grid_search_output.txt'
 
 # Hyperparam validation
 VALID_VOCABULARIES = [VOCABULARY_0, VOCABULARY_1, VOCABULARY_2]
