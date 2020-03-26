@@ -26,8 +26,7 @@ DF_COLUMN_NAME = 'Name'
 DF_COLUMN_LANG = 'Language'
 DF_COLUMN_TWEET = 'Tweet'
 
-# Ngram DataFrame columns, besides necessary features
-DF_COLUMN_SUM = 'sum'
+# Ngram DataFrame columns
 DF_COLUMN_OOV = "OOV"
 
 # Score DataFrame columns
