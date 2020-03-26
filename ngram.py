@@ -44,9 +44,9 @@ class Ngram:
 
         self.__finalize_ngrams()
         for lang, df in self.ngrams.items():
-            cols = df.columns.drop(DF_COLUMN_SUM)
-            self.ngrams[lang][cols] = (df[cols] + delta).div(df[DF_COLUMN_SUM] + vocab_size * delta, axis=0)
-            self.ngrams[lang][DF_COLUMN_OOV] = delta / (df[DF_COLUMN_SUM] + vocab_size * delta)
+            row_sum = self.ngrams[lang].sum(axis=1)
+            self.ngrams[lang] = (df + delta).div(row_sum + vocab_size * delta, axis=0)
+            self.ngrams[lang][DF_COLUMN_OOV] = delta / (row_sum + vocab_size * delta)
 
     def print(self):
         """
@@ -60,9 +60,7 @@ class Ngram:
     def __finalize_ngrams(self):
         """
         Insert 0.0 in missing cells.
-        Generate sum column which holds sums for each row.
         :return:
         """
         for lang in LANGUAGES:
             self.ngrams[lang].fillna(0.0, inplace=True)
-            self.ngrams[lang][DF_COLUMN_SUM] = self.ngrams[lang].sum(axis=1)
