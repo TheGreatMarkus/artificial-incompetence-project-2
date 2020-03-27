@@ -62,3 +62,13 @@ TRACE_FILE_DIR = 'trace_files'
 TRACE_FILE_TEMPLATE = TRACE_FILE_DIR + '/trace_{}_{}_{}.txt'
 SCIENTIFIC_NOTATION_FORMAT = '.2E'
 OUTPUT_FILE_SPACE_COUNT = 2
+
+# Hyperparam validation
+VALID_VOCABULARIES = [VOCABULARY_0, VOCABULARY_1, VOCABULARY_2]
+VALID_NGRAMS = [UNIGRAM, BIGRAM, TRIGRAM]
+
+VOCABULARY_VALUE_ERROR_MESSAGE = 'Vocabulary input does not match any valid vocabulary'
+NGRAM_VALUE_ERROR_MESSAGE = 'Ngram input does not match any valid ngram'
+DELTA_VALUE_ERROR_MESSAGE = 'The value of delta is out of (0 ... 1] range'
+MISSING_TRAIN_FILE_ERROR_MESSAGE = 'Train file does not exist'
+MISSING_TEST_FILE_ERROR_MESSAGE = 'Test file does not exist'

@@ -11,7 +11,7 @@ import pandas as pd
 from constants import *
 from test_results import get_test_results
 from vocabulary import transform_to_vocab, get_vocab_size
-from utils import process_train_data, generate_trace_file
+from utils import validate_params, process_train_data, generate_trace_file
 
 
 def main(v: int, n: int, delta: float, train_file: str, test_file: str):
@@ -24,6 +24,7 @@ def main(v: int, n: int, delta: float, train_file: str, test_file: str):
     :param test_file: Path to testing data
     :return: void
     """
+    validate_params(v, n, delta, train_file, test_file)
     vocab_size = get_vocab_size(v)
 
     print("Creating model with parameters: [vocabulary = {}, ngram size = {}, delta = {}]".format(v, n, delta))
