@@ -8,11 +8,12 @@
 # -----------------------------------------------------------
 
 import pandas as pd
+
 from constants import *
+from evaluate import evaluate_results
 from test_results import get_test_results
-from vocabulary import transform_to_vocab, get_vocab_size
 from utils import validate_params, process_train_data, generate_trace_file
-from evaluate import *
+from vocabulary import transform_to_vocab, get_vocab_size
 
 
 def main(v: int, n: int, delta: float, train_file: str, test_file: str):
