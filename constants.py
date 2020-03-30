@@ -77,3 +77,4 @@ MISSING_TEST_FILE_ERROR_MESSAGE = 'Test file does not exist'
 
 #Evaluation
 EVALUATION_FORMAT = "{:0<.4f}"
+END_OF_LINE = '\r'

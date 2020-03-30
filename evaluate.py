@@ -8,8 +8,8 @@ def accuracy(results: pd.DataFrame):
     :param results: Dataframe of tested results on model.
     :return: accuracy of the model.
     """
-    accuracy = ((results.label == CORRECT_LABEL).sum()/(results.label != '').sum())
-    return EVALUATION_FORMAT.format(accuracy) + '\r'
+    accuracy = ((results[DF_COLUMN_LABEL] == CORRECT_LABEL).sum()/(results[DF_COLUMN_LABEL] != '').sum())
+    return EVALUATION_FORMAT.format(accuracy) + END_OF_LINE
 
 def precision(results: pd.DataFrame):
     """
@@ -18,14 +18,14 @@ def precision(results: pd.DataFrame):
     :return: string of each languages precision.
     """
     precision = ''
-    correct = results.loc[(results.label == CORRECT_LABEL)]
-    wrong = results.loc[(results.label == WRONG_LABEL)]
+    correct = results.loc[(results[DF_COLUMN_LABEL] == CORRECT_LABEL)]
+    wrong = results.loc[(results[DF_COLUMN_LABEL] == WRONG_LABEL)]
 
     for language in LANGUAGES:
-        truePos = ( correct.actual == language).sum()
-        falsePos = (wrong.actual == language).sum()
-        precision += str(EVALUATION_FORMAT.format(truePos/(truePos + falsePos))) + '  '
-    return precision + '\r'
+        truePos = ( correct[DF_COLUMN_ACTUAL] == language).sum()
+        falsePos = (wrong[DF_COLUMN_ACTUAL] == language).sum()
+        precision += str(EVALUATION_FORMAT.format(truePos/(truePos + falsePos))) + OUTPUT_FILE_SPACE_COUNT * ' '
+    return precision + END_OF_LINE
 
 
 def recall(results: pd.DataFrame):
@@ -34,12 +34,12 @@ def recall(results: pd.DataFrame):
     :param results: Dataframe of tested results on model.
     :return: string of each languages recall.
     """
-    correct = results.loc[(results.label == CORRECT_LABEL)]
+    correct = results.loc[(results[DF_COLUMN_LABEL] == CORRECT_LABEL)]
     recall = ''
     for language in LANGUAGES:
-        truePos = (correct.actual == language).sum()
-        recall += str(EVALUATION_FORMAT.format((truePos/(results.actual == language).sum()))) + '  '
-    return recall + '\r'
+        truePos = (correct[DF_COLUMN_ACTUAL] == language).sum()
+        recall += str(EVALUATION_FORMAT.format((truePos/(results[DF_COLUMN_ACTUAL] == language).sum()))) + OUTPUT_FILE_SPACE_COUNT * ' '
+    return recall + END_OF_LINE
 
 def f1_Measure(results: pd.DataFrame):
     """
@@ -48,18 +48,18 @@ def f1_Measure(results: pd.DataFrame):
     :return: string of each languages F1 Measure.
     """
     f1 = ''
-    correct = results.loc[(results.label == CORRECT_LABEL)]
-    wrong = results.loc[(results.label == WRONG_LABEL)]
+    correct = results.loc[(results[DF_COLUMN_LABEL] == CORRECT_LABEL)]
+    wrong = results.loc[(results[DF_COLUMN_LABEL] == WRONG_LABEL)]
     for language in LANGUAGES:
-        truePos = (correct.actual == language).sum()
-        falsePos = (wrong.actual == language).sum()
+        truePos = (correct[DF_COLUMN_ACTUAL] == language).sum()
+        falsePos = (wrong[DF_COLUMN_ACTUAL] == language).sum()
         precision = (truePos/(truePos + falsePos))
-        recall = truePos/(results.actual == language).sum()
+        recall = truePos/(results[DF_COLUMN_ACTUAL] == language).sum()
         if(recall == 0):
-            f1 += '0.0000  '
+            f1 += str(EVALUATION_FORMAT.format(0)) + OUTPUT_FILE_SPACE_COUNT * ' '
         else:
-            f1 += str(EVALUATION_FORMAT.format((2 * ((precision * recall)/(precision + recall))))) + '  '
-    return f1 + '\r'
+            f1 += str(EVALUATION_FORMAT.format((2 * ((precision * recall)/(precision + recall))))) + OUTPUT_FILE_SPACE_COUNT * ' '
+    return f1 + END_OF_LINE
 
 def macro_And_Weighted_F1(results: pd.DataFrame):
     """
@@ -69,21 +69,21 @@ def macro_And_Weighted_F1(results: pd.DataFrame):
     """
     macroF1 = 0
     weightedF1 = 0
-    correct = results.loc[(results.label == CORRECT_LABEL)]
-    wrong = results.loc[(results.label == WRONG_LABEL)]
+    correct = results.loc[(results[DF_COLUMN_LABEL] == CORRECT_LABEL)]
+    wrong = results.loc[(results[DF_COLUMN_LABEL] == WRONG_LABEL)]
     for language in LANGUAGES:
-        truePos = (correct.actual == language).sum()
-        falsePos = (wrong.actual == language).sum()
+        truePos = (correct[DF_COLUMN_ACTUAL] == language).sum()
+        falsePos = (wrong[DF_COLUMN_ACTUAL] == language).sum()
         precision = (truePos / (truePos + falsePos))
-        recall = truePos / (results.actual == language).sum()
+        recall = truePos / (results[DF_COLUMN_ACTUAL] == language).sum()
         if (recall == 0):
             macroF1 += 0
             weightedF1 += 0
         else:
             macroF1 += (2 * ((precision * recall) / (precision + recall)))
-            weightedF1 += ((2 * ((precision * recall) / (precision + recall)))* (results.actual == language).sum())
+            weightedF1 += ((2 * ((precision * recall) / (precision + recall)))* (results[DF_COLUMN_ACTUAL] == language).sum())
 
-    return str(EVALUATION_FORMAT.format((macroF1)/len(LANGUAGES))) + '  ' + str(EVALUATION_FORMAT.format((weightedF1/len(results.index))))
+    return str(EVALUATION_FORMAT.format((macroF1)/len(LANGUAGES))) + OUTPUT_FILE_SPACE_COUNT * ' ' + str(EVALUATION_FORMAT.format((weightedF1/len(results.index))))
 
 
 def evaluate_Results(results: pd.DataFrame, v:int,n:int, d:float):
@@ -95,12 +95,22 @@ def evaluate_Results(results: pd.DataFrame, v:int,n:int, d:float):
     :param d: Delta smoothing value.
     :return: void.
     """
+    acc = accuracy(results)
+    pre = precision(results)
+    rec = recall(results)
+    f1 = f1_Measure(results)
+    mac_weigh_f1 = macro_And_Weighted_F1(results)
     if not os.path.exists(EVALUATION_FOLDER):
         os.makedirs(EVALUATION_FOLDER)
-    file = open(EVALUATION_RESULTS.format(v,n,d), "w")
-    file.write(accuracy(results))
-    file.write(precision(results))
-    file.write(recall(results))
-    file.write(f1_Measure(results))
-    file.write(macro_And_Weighted_F1(results))
-    file.close()
+    with open(EVALUATION_RESULTS.format(v,n,d), "w") as file:
+        file.write(acc)
+        file.write(pre)
+        file.write(rec)
+        file.write(f1)
+        file.write(mac_weigh_f1)
+        file.close()
+    print(acc)
+    print(pre)
+    print(rec)
+    print(f1)
+    print(mac_weigh_f1)
