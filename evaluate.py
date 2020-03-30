@@ -1,6 +1,8 @@
 from constants import *
 import pandas as pd
 import os
+from sklearn.metrics import precision_recall_fscore_support, precision_score
+
 
 def accuracy(results: pd.DataFrame):
     """
@@ -22,8 +24,8 @@ def precision(results: pd.DataFrame):
     wrong = results.loc[(results[DF_COLUMN_LABEL] == WRONG_LABEL)]
 
     for language in LANGUAGES:
-        truePos = ( correct[DF_COLUMN_ACTUAL] == language).sum()
-        falsePos = (wrong[DF_COLUMN_ACTUAL] == language).sum()
+        truePos = (correct[DF_COLUMN_ACTUAL] == language).sum()
+        falsePos = (wrong[DF_COLUMN_GUESS] == language).sum()
         precision += str(EVALUATION_FORMAT.format(truePos/(truePos + falsePos))) + OUTPUT_FILE_SPACE_COUNT * ' '
     return precision + END_OF_LINE
 
@@ -41,7 +43,7 @@ def recall(results: pd.DataFrame):
         recall += str(EVALUATION_FORMAT.format((truePos/(results[DF_COLUMN_ACTUAL] == language).sum()))) + OUTPUT_FILE_SPACE_COUNT * ' '
     return recall + END_OF_LINE
 
-def f1_Measure(results: pd.DataFrame):
+def f1_measure(results: pd.DataFrame):
     """
     Calculates the F1 Measure of each language on the results.
     :param results: Dataframe of tested results on model.
@@ -52,7 +54,7 @@ def f1_Measure(results: pd.DataFrame):
     wrong = results.loc[(results[DF_COLUMN_LABEL] == WRONG_LABEL)]
     for language in LANGUAGES:
         truePos = (correct[DF_COLUMN_ACTUAL] == language).sum()
-        falsePos = (wrong[DF_COLUMN_ACTUAL] == language).sum()
+        falsePos = (wrong[DF_COLUMN_GUESS] == language).sum()
         precision = (truePos/(truePos + falsePos))
         recall = truePos/(results[DF_COLUMN_ACTUAL] == language).sum()
         if(recall == 0):
@@ -61,7 +63,7 @@ def f1_Measure(results: pd.DataFrame):
             f1 += str(EVALUATION_FORMAT.format((2 * ((precision * recall)/(precision + recall))))) + OUTPUT_FILE_SPACE_COUNT * ' '
     return f1 + END_OF_LINE
 
-def macro_And_Weighted_F1(results: pd.DataFrame):
+def macro_and_weighted_f1(results: pd.DataFrame):
     """
     Calculates the Macro F1 Measure and the Weighted Average F1 Measure on the results.
     :param results: Dataframe of tested results on model.
@@ -73,7 +75,7 @@ def macro_And_Weighted_F1(results: pd.DataFrame):
     wrong = results.loc[(results[DF_COLUMN_LABEL] == WRONG_LABEL)]
     for language in LANGUAGES:
         truePos = (correct[DF_COLUMN_ACTUAL] == language).sum()
-        falsePos = (wrong[DF_COLUMN_ACTUAL] == language).sum()
+        falsePos = (wrong[DF_COLUMN_GUESS] == language).sum()
         precision = (truePos / (truePos + falsePos))
         recall = truePos / (results[DF_COLUMN_ACTUAL] == language).sum()
         if (recall == 0):
@@ -86,7 +88,7 @@ def macro_And_Weighted_F1(results: pd.DataFrame):
     return str(EVALUATION_FORMAT.format((macroF1)/len(LANGUAGES))) + OUTPUT_FILE_SPACE_COUNT * ' ' + str(EVALUATION_FORMAT.format((weightedF1/len(results.index))))
 
 
-def evaluate_Results(results: pd.DataFrame, v:int,n:int, d:float):
+def evaluate_results(results: pd.DataFrame, v:int,n:int, d:float):
     """
     Records the accuracy, precision, recall, F1 Measure, Weighted/Average F1 Measure of results to .txt file.
     :param results: Dataframe of tested results on model.
@@ -98,8 +100,8 @@ def evaluate_Results(results: pd.DataFrame, v:int,n:int, d:float):
     acc = accuracy(results)
     pre = precision(results)
     rec = recall(results)
-    f1 = f1_Measure(results)
-    mac_weigh_f1 = macro_And_Weighted_F1(results)
+    f1 = f1_measure(results)
+    mac_weigh_f1 = macro_and_weighted_f1(results)
     if not os.path.exists(EVALUATION_FOLDER):
         os.makedirs(EVALUATION_FOLDER)
     with open(EVALUATION_RESULTS.format(v,n,d), "w") as file:
