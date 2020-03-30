@@ -14,6 +14,7 @@ from vocabulary import transform_to_vocab, get_vocab_size
 from utils import validate_params, process_train_data, generate_trace_file
 from evaluate import *
 
+
 def main(v: int, n: int, delta: float, train_file: str, test_file: str):
     """
     Entry point of program.
@@ -43,6 +44,6 @@ def main(v: int, n: int, delta: float, train_file: str, test_file: str):
     print(results)
 
     print("Evaluating classifier with parameters: [vocabulary = {}, ngram size = {}, delta = {}]".format(v, n, delta))
-    evaluate_Results(results,v,n,delta)
+    evaluate_results(results,v,n,delta)
 
 main(VOCABULARY_1, BIGRAM, 1, './training-tweets.txt', './test-tweets.txt')
