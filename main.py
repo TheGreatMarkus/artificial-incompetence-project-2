@@ -12,7 +12,7 @@ from constants import *
 from test_results import get_test_results
 from vocabulary import transform_to_vocab, get_vocab_size
 from utils import validate_params, process_train_data, generate_trace_file
-
+from evaluate import *
 
 def main(v: int, n: int, delta: float, train_file: str, test_file: str):
     """
@@ -44,6 +44,6 @@ def main(v: int, n: int, delta: float, train_file: str, test_file: str):
 
     print("Evaluating classifier with parameters: [vocabulary = {}, ngram size = {}, delta = {}]".format(v, n, delta))
     print('Accuracy: {0:.2f}'.format(results[DF_COLUMN_LABEL].value_counts(normalize=True).loc[CORRECT_LABEL] * 100))
-
+    evaluate_Results(results,v,n,delta)
 
 main(VOCABULARY_1, BIGRAM, 1, './training-tweets.txt', './test-tweets.txt')
