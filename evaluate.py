@@ -24,9 +24,9 @@ def precision(results: pd.DataFrame):
     wrong = results.loc[(results[DF_COLUMN_LABEL] == WRONG_LABEL)]
 
     for language in LANGUAGES:
-        truePos = (correct[DF_COLUMN_ACTUAL] == language).sum()
-        falsePos = (wrong[DF_COLUMN_GUESS] == language).sum()
-        pre.update({language:(truePos/(truePos + falsePos))})
+        true_pos = (correct[DF_COLUMN_ACTUAL] == language).sum()
+        false_pos = (wrong[DF_COLUMN_GUESS] == language).sum()
+        pre.update({language:(true_pos/(true_pos + false_pos))})
     return pre
 
 
@@ -37,11 +37,11 @@ def recall(results: pd.DataFrame):
     :return: string of each languages recall.
     """
     correct = results.loc[(results[DF_COLUMN_LABEL] == CORRECT_LABEL)]
-    recall = {}
+    rec = {}
     for language in LANGUAGES:
-        truePos = (correct[DF_COLUMN_ACTUAL] == language).sum()
-        recall.update({language: truePos/(results[DF_COLUMN_ACTUAL] == language).sum()})
-    return recall
+        true_pos = (correct[DF_COLUMN_ACTUAL] == language).sum()
+        rec.update({language: true_pos/(results[DF_COLUMN_ACTUAL] == language).sum()})
+    return rec
 
 def f1_measure(results: pd.DataFrame):
     """
@@ -65,21 +65,14 @@ def macro_and_weighted_f1(results: pd.DataFrame):
     :param results: Dataframe of tested results on model.
     :return: string of the Macro F1 Measure and the Weighter Average F1 Measure.
     """
-    pre = precision(results)
-    rec = recall(results)
+
     f1 = f1_measure(results)
     macroF1 = 0
     weightedF1 = 0
-    correct = results.loc[(results[DF_COLUMN_LABEL] == CORRECT_LABEL)]
-    wrong = results.loc[(results[DF_COLUMN_LABEL] == WRONG_LABEL)]
+
     for language in LANGUAGES:
-        if rec[language] == 0:
-            macroF1 += 0
-            weightedF1 += 0
-        else:
-            macroF1 += (2 * ((pre[language] * rec[language]) / (pre[language] + rec[language])))
-            weightedF1 += ((2 * ((pre[language] * rec[language]) / (pre[language] + rec[language]))) *
-                           (results[DF_COLUMN_ACTUAL] == language).sum())
+        macroF1 += f1[language]
+        weightedF1 += (f1[language] * (results[DF_COLUMN_ACTUAL] == language).sum())
 
     return [macroF1 / len(LANGUAGES), (weightedF1 / len(results.index))]
 
