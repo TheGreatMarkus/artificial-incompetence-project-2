@@ -1,7 +1,7 @@
 from constants import *
 import pandas as pd
 import os
-from sklearn.metrics import precision_recall_fscore_support, precision_score
+
 
 
 def accuracy(results: pd.DataFrame):
@@ -19,14 +19,14 @@ def precision(results: pd.DataFrame):
     :param results: Dataframe of tested results on model.
     :return: string of each languages precision.
     """
-    precision = ''
+    precision = []
     correct = results.loc[(results[DF_COLUMN_LABEL] == CORRECT_LABEL)]
     wrong = results.loc[(results[DF_COLUMN_LABEL] == WRONG_LABEL)]
 
     for language in LANGUAGES:
         truePos = (correct[DF_COLUMN_ACTUAL] == language).sum()
         falsePos = (wrong[DF_COLUMN_GUESS] == language).sum()
-        precision += str(EVALUATION_FORMAT.format(truePos/(truePos + falsePos))) + OUTPUT_FILE_SPACE_COUNT * ' '
+        precision.append((truePos/(truePos + falsePos))) + OUTPUT_FILE_SPACE_COUNT * ' '
     return precision + END_OF_LINE
 
 
