@@ -47,15 +47,20 @@ def get_token_score(token, ngrams, lang, vocab_size) -> float:
     return score
 
 
-def prepare_result_df(test_data: pd.DataFrame) -> pd.DataFrame:
+def prepare_result_df(test_data: pd.DataFrame, score_language_df: pd.DataFrame = None) -> pd.DataFrame:
     """
     Prepare layout of the result DataFrame.
+    Score and Guess can be fetched optionally from already generated `score_language_df`.
+    :param score_language_df: DataFrame that contains scores and corresponding languages
     :param test_data: test data DataFrame.
     :return: partially filled result DataFrame.
     """
     results = pd.DataFrame(columns=[DF_COLUMN_ID, DF_COLUMN_GUESS, DF_COLUMN_SCORE, DF_COLUMN_ACTUAL, DF_COLUMN_LABEL])
     results[DF_COLUMN_ID] = test_data[DF_COLUMN_ID]
     results[DF_COLUMN_ACTUAL] = test_data[DF_COLUMN_LANG]
+    if score_language_df is not None:
+        results[DF_COLUMN_GUESS] = score_language_df[DF_COLUMN_GUESS]
+        results[DF_COLUMN_SCORE] = score_language_df[DF_COLUMN_SCORE]
     return results
 
 
