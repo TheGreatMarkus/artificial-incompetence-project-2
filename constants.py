@@ -53,6 +53,8 @@ VOCABULARY_2_SIZE = 116766
 # Serialization
 TRAINING_RESULT_FOLDER = 'trainingResults'
 TRAINING_FILE_TEMPLATE = TRAINING_RESULT_FOLDER + '/{}_{}-{}-{}.pkl'
+EVALUATION_FOLDER = 'evaluation'
+EVALUATION_RESULTS = EVALUATION_FOLDER + '/eval_{}_{}_{}.txt'
 
 # Labels
 CORRECT_LABEL = 'correct'
@@ -73,3 +75,7 @@ NGRAM_VALUE_ERROR_MESSAGE = 'Ngram input does not match any valid ngram'
 DELTA_VALUE_ERROR_MESSAGE = 'The value of delta is out of (0 ... 1] range'
 MISSING_TRAIN_FILE_ERROR_MESSAGE = 'Train file does not exist'
 MISSING_TEST_FILE_ERROR_MESSAGE = 'Test file does not exist'
+
+#Evaluation
+EVALUATION_FORMAT = "{:0<.4f}"
+END_OF_LINE = '\r'
