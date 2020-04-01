@@ -1,5 +1,6 @@
 import os
-
+from sklearn.metrics import confusion_matrix
+from matplotlib import pyplot as plt
 import pandas as pd
 
 from constants import *
@@ -97,6 +98,30 @@ def weighted_f1(results: pd.DataFrame):
     return weightedF1 / len(results.index)
 
 
+def generate_confusion_matrix(results: pd.DataFrame, illustrate: bool = False):
+    """
+    Generate confusion matrix output to console.
+    Optionally, generate a graphical plot.
+    :param results: DataFrame of results.
+    :param illustrate: generate plot if true else skip.
+    :return:
+    """
+    confmat = confusion_matrix(y_true=results[DF_COLUMN_ACTUAL], y_pred=results[DF_COLUMN_GUESS],
+                               labels=LANGUAGES)
+    if illustrate:
+        fig, ax = plt.subplots(figsize=(5, 5))
+        ax.matshow(confmat, cmap=plt.cm.Blues, alpha=0.3)
+        ax.set_xticklabels([''] + LANGUAGES)
+        ax.set_yticklabels([''] + LANGUAGES)
+        for i in range(confmat.shape[0]):
+            for j in range(confmat.shape[1]):
+                ax.text(x=j, y=i, s=confmat[i, j], horizontalalignment='center', verticalalignment='center')
+        plt.xlabel('Predicted labels')
+        plt.ylabel('Actual labels')
+        plt.show()
+    print('Confusion matrix:\n {}'.format(confmat))
+
+
 def format_results(results: pd.DataFrame):
     pre = precision(results)
     rec = recall(results)
@@ -118,6 +143,7 @@ def format_results(results: pd.DataFrame):
     print("Recall: " + r)
     print("F1 Measure: " + f)
     print("Macro/Weighted F1 Measure: " + m + w)
+    generate_confusion_matrix(results=results, illustrate=False)
     final_format = a + p + r + f + m + w
 
     return final_format
