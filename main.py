@@ -45,6 +45,7 @@ def main(v: int, n: int, delta: float, train_file: str, test_file: str):
     print(results)
 
     print("Evaluating classifier with parameters: [vocabulary = {}, ngram size = {}, delta = {}]".format(v, n, delta))
-    evaluate_results(results,v,n,delta)
+    evaluate_results(results, v, n, delta)
+
 
 main(VOCABULARY_1, BIGRAM, 1, './training-tweets.txt', './test-tweets.txt')

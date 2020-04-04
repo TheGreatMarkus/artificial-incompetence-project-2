@@ -55,6 +55,7 @@ def process_train_data(v: int, n: int, delta: float, vocab_size: int, train_file
         ds.data_ser_save(ngrams, v, n, delta)
     return ngrams
 
+
 def validate_params(v: int, n: int, delta: float, train_file: str, test_file: str):
     if v not in VALID_VOCABULARIES:
         raise ValueError(VOCABULARY_VALUE_ERROR_MESSAGE)

@@ -9,7 +9,8 @@
 
 # Delimiter for out of vocabulary characters
 OUT_OF_VOCABULARY_DELIM = '*'
-SENTENCE_DELIM = '|'
+LEFT_PAD_SYMBOL = '|'
+RIGHT_PAD_SYMBOL = '/'
 
 # Languages
 LANG_EU = "eu"
