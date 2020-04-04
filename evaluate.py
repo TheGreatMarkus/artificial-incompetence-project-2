@@ -28,7 +28,10 @@ def precision(results: pd.DataFrame):
     for language in LANGUAGES:
         true_pos = (correct[DF_COLUMN_GUESS] == language).sum()
         false_pos = (wrong[DF_COLUMN_GUESS] == language).sum()
-        pre[language] = (true_pos / (true_pos + false_pos))
+        if true_pos == 0:
+            pre[language] = 0
+        else:
+            pre[language] = (true_pos / (true_pos + false_pos))
     return pre
 
 
