@@ -7,8 +7,6 @@
 # All rights reserved.
 # -----------------------------------------------------------
 
-import os
-
 import pandas as pd
 
 from constants import *

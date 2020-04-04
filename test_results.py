@@ -1,6 +1,8 @@
 from math import log10
-import pandas as pd
+
 import numpy as np
+import pandas as pd
+
 from constants import *
 from custom_tokenize import tokenize
 from ngram import Ngram
@@ -43,7 +45,10 @@ def get_token_score(token, ngrams, lang, vocab_size) -> float:
     score = log10(1 / vocab_size)
     if token[:-1] in ngrams.ngrams[lang].index:
         column = token[-1:] if token[-1:] in ngrams.ngrams[lang].columns else DF_COLUMN_OOV
-        score = log10(ngrams.ngrams[lang].loc[token[:-1], column])
+        score = ngrams.ngrams[lang].loc[token[:-1], column]
+        if score == 0:
+            return float('-inf')
+        score = log10(score)
     return score
 
 

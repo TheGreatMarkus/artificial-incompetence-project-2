@@ -1,14 +1,16 @@
-from typing import Dict, List
 from functools import reduce
-from nltk.lm.preprocessing import padded_everygram_pipeline
-from nltk.lm import Lidstone
+from typing import Dict, List
+
 import pandas as pd
+from nltk.lm import Lidstone
+from nltk.lm.preprocessing import padded_everygram_pipeline
+
+from constants import *
+from custom_tokenize import tokenize
+from evaluate import format_results
+from test_results import prepare_result_df, finalize_result_df
 from utils import validate_params
 from vocabulary import transform_to_vocab
-from custom_tokenize import tokenize
-from test_results import prepare_result_df, finalize_result_df
-from evaluate import format_results
-from constants import *
 
 LIDSTONE_LEFT_PAD_SYMBOL = '<s>'
 LIDSTONE_RIGHT_PAD_SYMBOL = '</s>'
