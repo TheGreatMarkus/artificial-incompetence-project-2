@@ -54,8 +54,12 @@ VOCABULARY_0_SIZE = 26
 VOCABULARY_1_SIZE = 52
 VOCABULARY_2_SIZE = 116766
 
+# Input files
+TRAINING_TWEETS_FILE_LOCATION = ROOT_DIR + '/training-tweets.txt'
+TEST_TWEETS_FILE_LOCATION = ROOT_DIR + '/test-tweets.txt'
+
 # Serialization
-TRAINING_RESULT_FOLDER = ROOT_DIR + '/trainingResults'
+TRAINING_RESULT_FOLDER = ROOT_DIR + '/training_results'
 TRAINING_FILE_TEMPLATE = TRAINING_RESULT_FOLDER + '/{}_{}-{}-{}.pkl'
 EVALUATION_FOLDER = ROOT_DIR + '/evaluation'
 EVALUATION_RESULTS = EVALUATION_FOLDER + '/eval_{}_{}_{}.txt'
@@ -79,8 +83,8 @@ HYPERPARAM_DELTA = 'delta'
 MODEL_SCORE_EVALUATION_ACCURACY = 'accuracy'
 MODEL_SCORE_EVALUATION_F1_WEIGHTED = 'f1_weighted'
 MODEL_SCORE_EVALUATION_F1_MACRO = 'f1_macro'
-GRID_SEARCH_SERIALIZE_FILE = 'grid_search.pkl'
-GRID_SEARCH_OUTPUT_FILE = 'grid_search_output.txt'
+GRID_SEARCH_SERIALIZE_FILE = ROOT_DIR + '/performance/grid_search.pkl'
+GRID_SEARCH_OUTPUT_FILE = ROOT_DIR + '/performance/grid_search_output.txt'
 
 # Hyperparam validation
 VALID_VOCABULARIES = [VOCABULARY_0, VOCABULARY_1, VOCABULARY_2]

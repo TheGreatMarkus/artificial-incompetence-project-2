@@ -5,7 +5,7 @@ from sklearn.model_selection import ParameterGrid
 
 from constants import *
 from evaluate import accuracy, macro_f1, weighted_f1
-from main import main
+from required_model import required_model
 
 
 def evaluate_hyperparameters():
@@ -16,7 +16,8 @@ def evaluate_hyperparameters():
     param_grid = {HYPERPARAM_VOCABULARY: [0, 1],
                   HYPERPARAM_NGRAM: [1],
                   HYPERPARAM_DELTA: [0.5, 1]}
-    gs = GridSearch(estimator=main, param_grid=param_grid, load=False, scoring=MODEL_SCORE_EVALUATION_F1_WEIGHTED)
+    gs = GridSearch(estimator=required_model, param_grid=param_grid, load=False,
+                    scoring=MODEL_SCORE_EVALUATION_F1_WEIGHTED)
     gs.fit()
 
     print('\nGrid search results:')
@@ -66,7 +67,8 @@ class GridSearch:
             rows = []
             for params in grid:
                 model_result = self.estimator(params[HYPERPARAM_VOCABULARY], params[HYPERPARAM_NGRAM],
-                                              params[HYPERPARAM_DELTA], '../training-tweets.txt', '../test-tweets.txt')
+                                              params[HYPERPARAM_DELTA], TRAINING_TWEETS_FILE_LOCATION,
+                                              TEST_TWEETS_FILE_LOCATION)
                 score = self.__get_evaluation_score(model_result)
                 rows.append(self.__assemble_row(params, score))
             self.df = pd.DataFrame(rows,
@@ -145,6 +147,3 @@ class GridSearch:
         """
         with open(GRID_SEARCH_OUTPUT_FILE, 'w') as f:
             self.df.to_string(f, index=False, col_space=OUTPUT_FILE_SPACE_COUNT)
-
-
-evaluate_hyperparameters()

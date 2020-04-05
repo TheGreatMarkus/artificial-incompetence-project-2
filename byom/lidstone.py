@@ -100,6 +100,3 @@ def lidstone(v: int, n: int, gamma: float, train_file: str, test_file: str):
     # Evaluation stats
     print("Evaluating Lidstone with parameters: [vocabulary = {}, ngram size = {}, delta = {}]".format(v, n, gamma))
     format_results(results)
-
-
-lidstone(VOCABULARY_1, BIGRAM, 1, '../training-tweets.txt', '../test-tweets.txt')

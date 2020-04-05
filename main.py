@@ -7,46 +7,43 @@
 # All rights reserved.
 # -----------------------------------------------------------
 
-import pandas as pd
-
+from byom.lidstone import lidstone
+from byom.majority_vote import majority_vote_cl
 from constants import *
-from evaluate import evaluate_results
-from test_results import get_test_results
-from utils import validate_params, process_train_data, generate_trace_file
-from vocabulary import transform_to_vocab, get_vocab_size
+from performance.model_selection import evaluate_hyperparameters
+from required_model import required_model
+from utils import validate_params
 
 
-def main(v: int, n: int, delta: float, train_file: str, test_file: str):
+def main():
     """
     Entry point of program.
-    :param v: Vocabulary choice
-    :param n: ngram choice
-    :param delta: Smoothing choice
-    :param train_file: Path to training data
-    :param test_file: Path to testing data
-    :return: void
     """
-    validate_params(v, n, delta, train_file, test_file)
-    vocab_size = get_vocab_size(v)
+    print("Welcome to the Artificial Project 2 submission.")
+    print("You can:",
+          "\n(1) Run the required model and provide the hyper-parameters",
+          "\n(2) Run the required model against a list of hyper-parameters to find the best combination",
+          "\n(3) Run the LidStone BYOM",
+          "\n(4) Run the Majority vote BYOM")
+    choice = int(input("Your choice: "))
 
-    print("Creating model with parameters: [vocabulary = {}, ngram size = {}, delta = {}]".format(v, n, delta))
-    ngrams = process_train_data(v, n, delta, vocab_size, train_file)
-    ngrams.print()
+    v = 0
+    n = 0
+    delta = 0
+    if choice in [1, 3, 4]:
+        v = int(input("Vocabulary (0, 1 or 2): "))
+        n = int(input("Ngram size (1, 2 or 3): "))
+        delta = float(input("Delta (0 to 1): "))
+        validate_params(v, n, delta, TRAINING_TWEETS_FILE_LOCATION, TEST_TWEETS_FILE_LOCATION)
 
-    test_data = pd.read_csv(test_file, delimiter='\t',
-                            names=[DF_COLUMN_ID, DF_COLUMN_NAME, DF_COLUMN_LANG, DF_COLUMN_TWEET])
-    transform_to_vocab(test_data, v)
-
-    print("Running model against provided testing data.")
-    results = get_test_results(test_data, ngrams, vocab_size, n)
-    generate_trace_file(v, n, delta, results)
-
-    print("Final results generated")
-    print(results)
-
-    print("Evaluating classifier with parameters: [vocabulary = {}, ngram size = {}, delta = {}]".format(v, n, delta))
-    evaluate_results(results, v, n, delta)
-    return results
+    if choice == 1:
+        required_model(v, n, delta, TRAINING_TWEETS_FILE_LOCATION, TEST_TWEETS_FILE_LOCATION)
+    if choice == 2:
+        evaluate_hyperparameters()
+    if choice == 3:
+        lidstone(v, n, delta, TRAINING_TWEETS_FILE_LOCATION, TEST_TWEETS_FILE_LOCATION)
+    if choice == 4:
+        majority_vote_cl(v, n, delta, TRAINING_TWEETS_FILE_LOCATION, TEST_TWEETS_FILE_LOCATION)
 
 
-main(VOCABULARY_1, BIGRAM, 0, './training-tweets.txt', './test-tweets.txt')
+main()
