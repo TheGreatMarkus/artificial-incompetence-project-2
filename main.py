@@ -19,7 +19,7 @@ def main():
     """
     Entry point of program.
     """
-    print("Welcome to the Artificial Project 2 submission.")
+    print("Welcome to the Artificial Incompetence Team's Project 2 submission.")
     print("You can:",
           "\n(1) Run the required model (not BYOM)",
           "\n(2) Run the required model against a grid of hyper-parameters to find the best combination",
