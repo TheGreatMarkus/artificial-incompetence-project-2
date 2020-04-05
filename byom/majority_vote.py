@@ -1,17 +1,19 @@
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.calibration import CalibratedClassifierCV
-from sklearn.svm import LinearSVC
-from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import VotingClassifier
-import pandas as pd
-import numpy as np
-from typing import Dict
 import re
-from utils import validate_params, generate_trace_file
-from test_results import prepare_result_df, finalize_result_df
-from vocabulary import transform_to_vocab
-from evaluate import evaluate_results
+from typing import Dict
+
+import numpy as np
+import pandas as pd
+from sklearn.calibration import CalibratedClassifierCV
+from sklearn.ensemble import VotingClassifier
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
+from sklearn.svm import LinearSVC
+
 from constants import *
+from evaluate import evaluate_results
+from test_results import prepare_result_df, finalize_result_df
+from utils import validate_params, generate_trace_file
+from vocabulary import transform_to_vocab
 
 
 def custom_transform_to_vocab(df: pd.DataFrame, v: int) -> None:
@@ -98,6 +100,3 @@ def majority_vote_cl(v: int, n: int, delta: float, train_file: str, test_file: s
             v, n, delta))
     evaluate_results(results, v, n, delta)
     return results
-
-
-majority_vote_cl(VOCABULARY_1, BIGRAM, 0.5, '../training-tweets.txt', '../test-tweets.txt')

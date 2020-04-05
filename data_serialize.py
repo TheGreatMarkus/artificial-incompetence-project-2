@@ -6,6 +6,7 @@
 # Copyright (c) 2020-2021 Team Artificial Incompetence, COMP 472
 # All rights reserved.
 # -----------------------------------------------------------
+import os
 
 import pandas as pd
 
