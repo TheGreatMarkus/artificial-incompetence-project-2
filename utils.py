@@ -27,8 +27,11 @@ def generate_trace_file(v: int, n: int, delta: float, result_df: pd.DataFrame):
     """
     if not os.path.exists(TRACE_FILE_DIR):
         os.makedirs(TRACE_FILE_DIR)
+    trace_file_content = result_df.to_csv(index=False, header=False)
+    trace_file_content = trace_file_content.replace(',', OUTPUT_FILE_SPACE_COUNT * ' ')
+
     with open(TRACE_FILE_TEMPLATE.format(v, n, delta), 'w') as f:
-        result_df.to_string(f, index=False, col_space=OUTPUT_FILE_SPACE_COUNT)
+        f.write(trace_file_content)
 
 
 def process_train_data(v: int, n: int, delta: float, vocab_size: int, train_file: str) -> Ngram:
