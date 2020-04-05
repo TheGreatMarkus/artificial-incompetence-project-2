@@ -21,8 +21,8 @@ def main():
     """
     print("Welcome to the Artificial Project 2 submission.")
     print("You can:",
-          "\n(1) Run the required model and provide the hyper-parameters",
-          "\n(2) Run the required model against a list of hyper-parameters to find the best combination",
+          "\n(1) Run the required model (not BYOM)",
+          "\n(2) Run the required model against a grid of hyper-parameters to find the best combination",
           "\n(3) Run the LidStone BYOM",
           "\n(4) Run the Majority vote BYOM")
     choice = int(input("Your choice: "))
