@@ -1,7 +1,6 @@
-import os
-from sklearn.metrics import confusion_matrix
-from matplotlib import pyplot as plt
 import pandas as pd
+from matplotlib import pyplot as plt
+from sklearn.metrics import confusion_matrix
 
 from constants import *
 

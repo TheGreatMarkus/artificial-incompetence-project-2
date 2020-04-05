@@ -6,12 +6,12 @@
 # Copyright (c) 2020-2021 Team Artificial Incompetence, COMP 472
 # All rights reserved.
 # -----------------------------------------------------------
-import os
 import pandas as pd
+
 import data_serialize as ds
-from vocabulary import transform_to_vocab
-from ngram import Ngram
 from constants import *
+from ngram import Ngram
+from vocabulary import transform_to_vocab
 
 
 def generate_trace_file(v: int, n: int, delta: float, result_df: pd.DataFrame):
@@ -61,7 +61,7 @@ def validate_params(v: int, n: int, delta: float, train_file: str, test_file: st
         raise ValueError(VOCABULARY_VALUE_ERROR_MESSAGE)
     if n not in VALID_NGRAMS:
         raise ValueError(NGRAM_VALUE_ERROR_MESSAGE)
-    if delta <= 0 or delta > 1:
+    if delta < 0 or delta > 1:
         raise ValueError(DELTA_VALUE_ERROR_MESSAGE)
     if not os.path.exists(train_file):
         raise ValueError(MISSING_TRAIN_FILE_ERROR_MESSAGE)

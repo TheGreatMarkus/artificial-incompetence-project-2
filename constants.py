@@ -92,6 +92,6 @@ DELTA_VALUE_ERROR_MESSAGE = 'The value of delta is out of (0 ... 1] range'
 MISSING_TRAIN_FILE_ERROR_MESSAGE = 'Train file does not exist'
 MISSING_TEST_FILE_ERROR_MESSAGE = 'Test file does not exist'
 
-#Evaluation
+# Evaluation
 EVALUATION_FORMAT = "{:0<.4f}"
 END_OF_LINE = '\r'

@@ -48,4 +48,5 @@ def main(v: int, n: int, delta: float, train_file: str, test_file: str):
     evaluate_results(results, v, n, delta)
     return results
 
-main(VOCABULARY_1, BIGRAM, 1, './training-tweets.txt', './test-tweets.txt')
+
+main(VOCABULARY_1, BIGRAM, 0, './training-tweets.txt', './test-tweets.txt')
