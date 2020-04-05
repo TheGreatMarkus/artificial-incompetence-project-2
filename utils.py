@@ -6,6 +6,8 @@
 # Copyright (c) 2020-2021 Team Artificial Incompetence, COMP 472
 # All rights reserved.
 # -----------------------------------------------------------
+import os
+
 import pandas as pd
 
 import data_serialize as ds
@@ -57,6 +59,8 @@ def process_train_data(v: int, n: int, delta: float, vocab_size: int, train_file
 
 
 def validate_params(v: int, n: int, delta: float, train_file: str, test_file: str):
+    print("Parameter values: [v: {}, n: {}, delta: {}, train_file: {}, test_file: {}]"
+          .format(v, n, delta, train_file, test_file))
     if v not in VALID_VOCABULARIES:
         raise ValueError(VOCABULARY_VALUE_ERROR_MESSAGE)
     if n not in VALID_NGRAMS:

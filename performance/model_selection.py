@@ -1,3 +1,4 @@
+import os
 from typing import Dict
 
 import pandas as pd
@@ -8,7 +9,7 @@ from evaluate import accuracy, macro_f1, weighted_f1
 from required_model import required_model
 
 
-def evaluate_hyperparameters():
+def evaluate_hyperparameters(train_file, test_file):
     """
     Execute GridSearch to evaluate hyperparameters.
     :return:
@@ -18,7 +19,7 @@ def evaluate_hyperparameters():
                   HYPERPARAM_DELTA: [0.5, 1]}
     gs = GridSearch(estimator=required_model, param_grid=param_grid, load=False,
                     scoring=MODEL_SCORE_EVALUATION_F1_WEIGHTED)
-    gs.fit()
+    gs.fit(train_file, test_file)
 
     print('\nGrid search results:')
     print('Best score: {}'.format(gs.best_score()))
@@ -55,7 +56,7 @@ class GridSearch:
         self.load = load
         self.df = pd.DataFrame
 
-    def fit(self):
+    def fit(self, train_file, test_file):
         """
         Fit data according to the params
         :return: DataFrame
@@ -67,8 +68,8 @@ class GridSearch:
             rows = []
             for params in grid:
                 model_result = self.estimator(params[HYPERPARAM_VOCABULARY], params[HYPERPARAM_NGRAM],
-                                              params[HYPERPARAM_DELTA], TRAINING_TWEETS_FILE_LOCATION,
-                                              TEST_TWEETS_FILE_LOCATION)
+                                              params[HYPERPARAM_DELTA], train_file,
+                                              test_file)
                 score = self.__get_evaluation_score(model_result)
                 rows.append(self.__assemble_row(params, score))
             self.df = pd.DataFrame(rows,

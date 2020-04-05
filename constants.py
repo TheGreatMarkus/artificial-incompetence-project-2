@@ -8,12 +8,10 @@
 # -----------------------------------------------------------
 
 # Delimiter for out of vocabulary characters
-import os
 
 OUT_OF_VOCABULARY_DELIM = '*'
 LEFT_PAD_SYMBOL = '|'
 RIGHT_PAD_SYMBOL = '/'
-ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Languages
 LANG_EU = "eu"
@@ -55,13 +53,13 @@ VOCABULARY_1_SIZE = 52
 VOCABULARY_2_SIZE = 116766
 
 # Input files
-TRAINING_TWEETS_FILE_LOCATION = ROOT_DIR + '/training-tweets.txt'
-TEST_TWEETS_FILE_LOCATION = ROOT_DIR + '/test-tweets.txt'
+DEFAULT_TRAINING_FILE = './training-tweets.txt'
+DEFAULT_TEST_FILE = './test-tweets.txt'
 
 # Serialization
-TRAINING_RESULT_FOLDER = ROOT_DIR + '/training_results'
+TRAINING_RESULT_FOLDER = './training_results'
 TRAINING_FILE_TEMPLATE = TRAINING_RESULT_FOLDER + '/{}_{}-{}-{}.pkl'
-EVALUATION_FOLDER = ROOT_DIR + '/evaluation'
+EVALUATION_FOLDER = './evaluation'
 EVALUATION_RESULTS = EVALUATION_FOLDER + '/eval_{}_{}_{}.txt'
 
 # Labels
@@ -69,7 +67,7 @@ CORRECT_LABEL = 'correct'
 WRONG_LABEL = 'wrong'
 
 # Trace file
-TRACE_FILE_DIR = ROOT_DIR + '/trace_files'
+TRACE_FILE_DIR = './trace_files'
 TRACE_FILE_TEMPLATE = TRACE_FILE_DIR + '/trace_{}_{}_{}.txt'
 SCIENTIFIC_NOTATION_FORMAT = '.2E'
 OUTPUT_FILE_SPACE_COUNT = 2
@@ -83,8 +81,8 @@ HYPERPARAM_DELTA = 'delta'
 MODEL_SCORE_EVALUATION_ACCURACY = 'accuracy'
 MODEL_SCORE_EVALUATION_F1_WEIGHTED = 'f1_weighted'
 MODEL_SCORE_EVALUATION_F1_MACRO = 'f1_macro'
-GRID_SEARCH_SERIALIZE_FILE = ROOT_DIR + '/performance/grid_search.pkl'
-GRID_SEARCH_OUTPUT_FILE = ROOT_DIR + '/performance/grid_search_output.txt'
+GRID_SEARCH_SERIALIZE_FILE = './performance/grid_search.pkl'
+GRID_SEARCH_OUTPUT_FILE = './performance/grid_search_output.txt'
 
 # Hyperparam validation
 VALID_VOCABULARIES = [VOCABULARY_0, VOCABULARY_1, VOCABULARY_2]

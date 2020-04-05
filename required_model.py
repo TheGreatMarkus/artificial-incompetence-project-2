@@ -19,12 +19,7 @@ def required_model(v: int, n: int, delta: float, train_file: str, test_file: str
     """
     validate_params(v, n, delta, train_file, test_file)
     vocab_size = get_vocab_size(v)
-
-    print("Creating model with parameters: [vocabulary = {}, ngram size = {}, delta = {}]".format(v, n, delta))
     ngrams = process_train_data(v, n, delta, vocab_size, train_file)
-
-    # Commented out to reduce console output clutter.
-    # ngrams.print()
 
     test_data = pd.read_csv(test_file, delimiter='\t',
                             names=[DF_COLUMN_ID, DF_COLUMN_NAME, DF_COLUMN_LANG, DF_COLUMN_TWEET])
