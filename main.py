@@ -34,9 +34,9 @@ def main():
         n = int(input("Ngram size (1, 2 or 3) (default: 1): ") or 1)
         delta = float(input("Delta (0.0 to 1.0) (default: 0): ") or 0)
 
-    train_file = input("Location of training tweets. (default: '{}'): ".format(
+    train_file = input("Location of training tweets (default: '{}'): ".format(
         DEFAULT_TRAINING_FILE)) or DEFAULT_TRAINING_FILE
-    test_file = input("Location of training tweets. (default: '{}'): ".format(
+    test_file = input("Location of testing tweets (default: '{}'): ".format(
         DEFAULT_TEST_FILE)) or DEFAULT_TEST_FILE
 
     if choice == 1:
