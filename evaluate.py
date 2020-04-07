@@ -47,7 +47,10 @@ def recall(results: pd.DataFrame):
     rec = {}
     for language in LANGUAGES:
         true_pos = (correct[DF_COLUMN_ACTUAL] == language).sum()
-        rec[language] = (true_pos / (results[DF_COLUMN_ACTUAL] == language).sum())
+        if (results[DF_COLUMN_ACTUAL] == language).sum() == 0:
+            rec[language] = 0
+        else:
+            rec[language] = (true_pos / (results[DF_COLUMN_ACTUAL] == language).sum())
     return rec
 
 
