@@ -8,6 +8,13 @@ from custom_tokenize import tokenize
 from ngram import Ngram
 
 
+def prior_probability(test_data: pd.DataFrame, lang: str):
+    count_lang = test_data[DF_COLUMN_LANG].value_counts()[lang]
+    if count_lang == 0:
+        return 0
+    return log10(count_lang / len(test_data.index))
+
+
 def get_test_results(test_data: pd.DataFrame, ngrams: Ngram, vocab_size: int, n: int) -> pd.DataFrame:
     """
     Generate test result DataFrame from test data and model
@@ -20,8 +27,9 @@ def get_test_results(test_data: pd.DataFrame, ngrams: Ngram, vocab_size: int, n:
     results = prepare_result_df(test_data)
     for index, row in test_data.iterrows():
         scores = {
-            lang: sum([get_token_score(token, ngrams, lang, vocab_size)
-                       for token in tokenize(row[DF_COLUMN_TWEET], n)])
+            lang: prior_probability(test_data, lang) + sum(
+                [get_token_score(token, ngrams, lang, vocab_size)
+                 for token in tokenize(row[DF_COLUMN_TWEET], n)])
             for lang in LANGUAGES
         }
         guess = max(scores, key=scores.get)
