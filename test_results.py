@@ -9,10 +9,10 @@ from ngram import Ngram
 
 
 def prior_probability(test_data: pd.DataFrame, lang: str):
-    count_lang = test_data[DF_COLUMN_LANG].value_counts()[lang]
-    if count_lang == 0:
+    count_langs = test_data[DF_COLUMN_LANG].value_counts()
+    if lang not in count_langs.index or count_langs[lang] == 0:
         return 0
-    return log10(count_lang / len(test_data.index))
+    return log10(count_langs[lang] / len(test_data.index))
 
 
 def get_test_results(test_data: pd.DataFrame, ngrams: Ngram, vocab_size: int, n: int) -> pd.DataFrame:
