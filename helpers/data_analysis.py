@@ -6,7 +6,7 @@ import pandas as pd
 
 sys.path.extend([os.getcwd()])  # So that code works in terminal
 
-from constants import DF_COLUMN_ID, DF_COLUMN_NAME, DF_COLUMN_LANG, DF_COLUMN_TWEET
+from constants import DF_COLUMN_ID, DF_COLUMN_NAME, DF_COLUMN_LANG, DF_COLUMN_TWEET, LANGUAGES
 
 # Absolute path
 data_file_name = "/abs/path/to/file.txt"
@@ -17,6 +17,10 @@ file_data = pd.read_csv(data_file_name, delimiter='\t',
 
 num_tweets = len(file_data.index)
 lang_count = file_data[DF_COLUMN_LANG].value_counts()
+
+for lang in LANGUAGES:
+    if lang not in lang_count.index:
+        lang_count[lang] = 0
 
 print("Data set has {} tweets.".format(num_tweets))
 for lang, num_lang in lang_count.iteritems():
